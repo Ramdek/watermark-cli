@@ -109,7 +109,7 @@ fn process_pdf(cli: &Cli) {
             text_scale: cli.text_scale,
             recursive: cli.recursive,
             orientation: cli.orientation,
-            color: cli.color,
+            color: cli.color.clone(),
         },
         Some(output_dir.as_path()),
     );
@@ -188,7 +188,7 @@ fn add_watermark(image_path: &Path, cli: &Cli, output_file: &PathBuf) -> Result<
     let scale: f32 = if img_height as f32 * cli.text_scale <= 0.0 { 0.05 } else { img_height as f32 * cli.text_scale };
     let space_y: f32 = if scale * cli.space_scale <= 1.0 { 1.0 } else { scale * cli.space_scale };
 
-    let text_color: Rgba<u8> = cli.color;
+    let text_colors: &Vec<Rgba<u8>> = &cli.color;
 
     let mut long_watermark: String = String::from(&cli.watermark);
     long_watermark.push('\t');
@@ -202,7 +202,7 @@ fn add_watermark(image_path: &Path, cli: &Cli, output_file: &PathBuf) -> Result<
         }
         draw_text_mut(
             &mut canva,
-            text_color,
+            text_colors[i as usize % text_colors.len()],
             0,
             y_pos,
             scale,

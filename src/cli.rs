@@ -76,9 +76,9 @@ pub struct Cli {
     #[arg(short, long, default_value = "-45.0")]
     pub orientation: f32,
 
-    /// Color of the watermark, in RGBA format (128, 128, 128, 150 for exemple)
+    /// Colors of the watermark, in RGBA format (128, 128, 128, 150 for exemple)
     #[arg(short = 'c', long, value_parser = parse_color, default_value = "128, 128, 128, 150")]
-    pub color: Rgba<u8>,
+    pub color: Vec<Rgba<u8>>,
 }
 
 pub fn parse_color(s: &str) -> Result<Rgba<u8>, String> {
